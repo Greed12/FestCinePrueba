@@ -21,12 +21,13 @@ public class OmdbWebServiceClient {
         StringBuffer response = new StringBuffer();
         JSONArray array = new JSONArray();
         try {
-            System.setProperty("proxySet", "true");
+            //Configuraciones en caso de tener proxy
+            /*System.setProperty("proxySet", "true");
             System.setProperty("socksProxyHost", "192.168.5.7");
             System.setProperty("socksProxyPort", "1080");
             System.setProperty("http.proxyHost", "192.168.5.7");
             System.setProperty("http.proxyPort", "3128");
-            System.setProperty("http.nonProxyHosts", "localhost|127.0.0.1");
+            System.setProperty("http.nonProxyHosts", "localhost|127.0.0.1");*/
             URL url = new URL(requestUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
