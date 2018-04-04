@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"  
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <p:panel style="border-color: #66b3ff; border-width: 3px">
+            <h:form id="form">
+                <div  class="ui-g">
+                    <div class="ui-g-12 ui-md-6 ui-lg-5">
+                        <p:outputLabel value="Busca tu pelicula favorita y vota por ella" style="color:#008ae6"/> 
+                    </div>
+                    <div class="ui-g-12 ui-md-6 ui-lg-6">
+                        <p:inputText value="#{voto.nombreP}"/>&nbsp;
+                        <p:commandButton value="Buscar" actionListener="#{voto.findByTitle()}" update="form"
+                                         icon="ui-icon-plus" style="background-color: #66b3ff; font-size:15px"/>
+                    </div>
+                </div>
+                <p:panelGrid columns="2" columnClasses="ui-grid-col-6,ui-grid-col-6" style="width: 100%" layout="grid">
+                    <p:column>
+                        <p:outputLabel value="Lista de titulos: " style="color:#008ae6"/><br/>
+                        <c:forEach items="#{voto.lista}" var="list">
+                            <p:commandLink value="#{list}" action="#{voto.selectMovie(list)}" update="form"/><br/>
+                        </c:forEach>
+                    </p:column>
+                    <p:column>
+                        <center>
+                            <p:outputLabel value="Votaras por:" style="color:#008ae6"/><br/>
+                            <p:outputLabel value="#{voto.title}"/><br/>
+                            <p:outputLabel value="Año de estreno: " rendered="#{voto.verBoton}"/>
+                            <p:outputLabel value="#{voto.year}"/><br/>
+                            <p:outputLabel value="Tipo: " rendered="#{voto.verBoton}"/>
+                            <p:outputLabel value="#{voto.type}"/><br/>
+                            <p:graphicImage url="#{voto.poster}" style="width: 40%;height: 20%;" /><br/>
+                            <p:commandButton value="Votar" actionListener="#{voto.mostrarDiaCritico()}" rendered="#{voto.verBoton}"
+                                             icon="ui-icon-check" style="background-color: #66b3ff; font-size:15px"/>
+                        </center>
+                    </p:column>
+                </p:panelGrid>
+            </h:form>
+            <h:form id="frmDiaCritico">
+                <p:dialog id="DialogoCritico" widgetVar="DialogoCritico" closeOnEscape="true" 
+                          closable="false" height="30%" width="25%" modal="true" resizable="false"
+                          style="">
+                    <p:panel>
+                        <p:outputLabel value="¿Eres critico de cine?"/>
+                        <div  class="ui-g">
+                            <div class="ui-g-12 ui-md-6 ui-lg-5">
+                                <p:commandButton value="Si" actionListener="#{voto.votoSi()}"
+                                                 icon="ui-icon-check" style="background-color: #66b3ff; font-size:15px"/>
+                            </div>
+                            <div class="ui-g-12 ui-md-6 ui-lg-6">
+                                <p:commandButton value="No" actionListener="#{voto.votoNo()}" onclick="PF('DialogoCritico').hide()"
+                                                 update="frmDiaCritico" icon="ui-icon-cancel" style="background-color: #66b3ff; font-size:15px"/>
+                            </div>
+                        </div>
+                        <!--p:commandButton value="votar" actionListener="# {voto.votar()}" onclick="redireccionarPagina()"
+                                         icon="ui-icon-cancel" style="background-color: #66b3ff; font-size:15px"/-->
+                    </p:panel>
+                </p:dialog>
+            </h:form>
+            <h:form id="frmDiaSiNo">
+                <p:dialog id="DialogoSiNo" widgetVar="DialogoSiNo" closeOnEscape="true" 
+                          closable="false" height="50%" width="50%" modal="true" resizable="false"
+                          style="">
+                    <center>
+                        <p:panel id="pnlNo" rendered="#{voto.verNo}">
+                            <p:outputLabel value="¡Vuelvete uno, visita el Festival de Cine! 
+                                           ¡Gracias por tu voto!"/><br/>
+                            <p:commandButton value="Volver"  onclick="redireccionarPagina()" style="background-color: #66b3ff; font-size:15px"/>
+                        </p:panel>
+                        <p:panel id="pnlSi" rendered="#{voto.verSi}">
+                            <p:outputLabel value="¡Amplia tus conocimientos, visita el Festival de Cine! 
+                                           ¡Gracias por tu voto!"/><br/>
+                            <p:commandButton value="Volver"  onclick="redireccionarPagina()" style="background-color: #66b3ff; font-size:15px"/>
+                        </p:panel>
+                    </center>
+                </p:dialog>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

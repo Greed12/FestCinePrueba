@@ -1,0 +1,13 @@
+.ocupado {
+    background: red;
+    text-align:center;
+}
+
+.sinReserva {
+    background: blue;
+    text-align:center;
+}
+.reservados{
+    background: green;
+    text-align:center;
+}
